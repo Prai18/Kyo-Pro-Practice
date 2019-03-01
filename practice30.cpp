@@ -6,16 +6,60 @@
 ・文字列𝑠が正しい括弧列の条件を満たすなら、(𝑠)は正しい括弧列である。
 ・文字列𝑠と𝑡がどちらも正しい括弧列の条件を満たすなら、𝑠と𝑡を連結した文字列は正しい括弧列である。
 */
-#include<iostream>
-#include<string>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int main(){
-  int left,right;
-  int num;
-
-  cin>>num;
-
-  cout<<a<<endl;
+int main() {
+  int N, ans = 0;
+  cin >> N;
+  //bitの長さは2N
+  N *= 2;
+  //括弧列が条件を満たしているかのチェック
+  bool bye;
+  //bit全探索
+  for (int bit = 0; bit < (1 << N); ++bit) {
+    //le='('=bitの1、ri=')'=bitの0に対応
+    cout<< bitset<4>(bit)<<endl;
+    int le = 0, ri = 0;
+    bye = false;
+    for (int i = 0; i < N; ++i) {
+      if (bit&(1 << i)) {
+        ++le;
+      }
+      else {
+        ++ri;
+      }
+      cout<<le<<" "<<ri<<endl;
+      //もし'('の数よりも')'の数が多くなったら(右から数えて)対応の取れない括弧列なので弾く
+      if (le < ri) {
+        bye = true;
+        break;
+      }
+    }
+    //'('の数と')'の数が等しく、bye==falseならそれは対応の取れた括弧列
+    if (le == ri && !bye) { ++ans;
+      cout<<"*******"<< bitset<4>(bit)<<endl;
+     }
+  }
+  cout << ans << endl;
 }
+
+
+/*
+N=1のとき、つまり () だけが成り立つとき
+
+0001と考えると、1*2ビット左シフトするから
+0100となり、bit < 0100となるから
+0000〜0011までの探索になる(bit長を考えると00〜11)
+
+0=),1=(であるから
+
+00=))
+01=)(
+10=()
+11=((
+
+となるので1つだけ成り立っているのがわかる
+
+
+*/
